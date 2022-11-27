@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -6,6 +7,9 @@
 <body>
 
 <form action="login" method="post">
+   <c:if test="${err!=null}">
+       <p>${err}</p>
+   </c:if>
     <label>Username</label>
     <input type="text" name="username" required>
     <label>Password</label>
