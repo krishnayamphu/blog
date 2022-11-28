@@ -11,12 +11,12 @@ public class MyContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         System.out.println("application is deploying");
-        Database.run();
+       // Database.run();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        Database.destroy();
+        //Database.destroy();
         System.out.println("application is going to terminate");
     }
 }
