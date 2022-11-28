@@ -5,12 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 
-public class BlogTable {
+public class PostTable {
     static Connection cn;
     public static void create(){
         try {
             cn=ConnectDB.connect();
-            String sql="CREATE TABLE blog (id int PRIMARY KEY AUTO_INCREMENT, title VARCHAR(256) NOT NULL,content text,user_id int NOT NULL, picture VARCHAR(256), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP, UNIQUE(title))";
+            String sql="CREATE TABLE posts (id int PRIMARY KEY AUTO_INCREMENT, title VARCHAR(256) NOT NULL,content text,user_id int NOT NULL, picture VARCHAR(256), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UNIQUE(title))";
             PreparedStatement ps=cn.prepareStatement(sql);
             ps.executeUpdate();
             System.out.println("Blog table created");
@@ -28,7 +28,7 @@ public class BlogTable {
     public static void drop(){
         try {
             cn=ConnectDB.connect();
-            String sql="DROP TABLE blog";
+            String sql="DROP TABLE posts";
             PreparedStatement ps=cn.prepareStatement(sql);
             ps.executeUpdate();
             System.out.println("Blog table deleted");
