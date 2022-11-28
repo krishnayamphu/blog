@@ -33,7 +33,7 @@ public class PostDAO {
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-        return users;
+        return posts;
     }
     public static User getUser(int id) {
         User user = new User();
@@ -56,6 +56,23 @@ public class PostDAO {
         }
         return user;
     }
+
+    public static void addPost(Post post) {
+        String sql = "INSERT INTO posts (title,content,user_id,picture) VALUES(?,?,?,?)";
+        try {
+            Connection con = ConnectDB.connect();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, post.getTitle());
+            ps.setString(2, post.getContent());
+            ps.setInt(3, post.getUserId());
+            ps.setString(4,post.getPicture());
+            ps.executeUpdate();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void updateUser(User user) {
         String sql = "UPDATE users SET username=?,password=?,email=? WHERE id=?";
         try {
@@ -71,21 +88,7 @@ public class PostDAO {
             e.printStackTrace();
         }
     }
-    public static void addUser(User user) {
-        String sql = "INSERT INTO users (username,email,password,picture) VALUES(?,?,?,?)";
-        try {
-            Connection con = ConnectDB.connect();
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, user.getUsername());
-            ps.setString(2, user.getEmail());
-            ps.setString(3, user.getPassword());
-            ps.setString(4,user.getPicture());
-            ps.executeUpdate();
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
     public static boolean auth(String username, String password){
         boolean status=false;
         String sql = "SELECT username,password FROM users WHERE username=? AND password=?";
