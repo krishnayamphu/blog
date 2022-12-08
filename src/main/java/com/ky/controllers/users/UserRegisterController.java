@@ -27,7 +27,7 @@ public class UserRegisterController extends HttpServlet {
         user.setPassword(password);
         user.setPicture(picture);
         UserDAO.addUser(user);
-        response.getWriter().print("user register successfully");
+        response.sendRedirect("dashboard");
 
     }
 }

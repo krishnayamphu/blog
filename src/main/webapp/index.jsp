@@ -1,7 +1,5 @@
 <html>
 <body>
-<h2>Hello World!</h2>
-<a href="login">Login</a>
-<a href="register">Register</a>
+<jsp:forward page="home"></jsp:forward>
 </body>
 </html>

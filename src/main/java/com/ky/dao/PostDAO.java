@@ -35,26 +35,54 @@ public class PostDAO {
         }
         return posts;
     }
-    public static User getUser(int id) {
-        User user = new User();
+
+    public static ArrayList<Post> getLatestPosts() {
+        ArrayList<Post> posts = new ArrayList<>();
         try {
             Connection con = ConnectDB.connect();
-            String sql = "SELECT * FROM users WHERE id=?";
+            String sql = "SELECT * FROM posts ORDER BY id LIMIT 5";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                user.setId(rs.getInt("id"));
-                user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
-                user.setEmail(rs.getString("email"));
-                user.setPicture(rs.getString("picture"));
+                Post post = new Post();
+                post.setId(rs.getInt("id"));
+                post.setTitle(rs.getString("title"));
+                post.setContent(rs.getString("content"));
+                post.setUserId(rs.getInt("user_id"));
+                post.setPicture(rs.getString("picture"));
+                post.setCreatedAt(rs.getString("created_at"));
+                post.setUpdatedAt(rs.getString("updated_at"));
+                posts.add(post);
             }
             con.close();
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-        return user;
+        return posts;
+    }
+
+    public static Post getPost(int id) {
+        Post post = new Post();
+        try {
+            Connection con = ConnectDB.connect();
+            String sql = "SELECT * FROM posts WHERE id=?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                post.setId(rs.getInt("id"));
+                post.setTitle(rs.getString("title"));
+                post.setContent(rs.getString("content"));
+                post.setUserId(rs.getInt("user_id"));
+                post.setPicture(rs.getString("picture"));
+                post.setCreatedAt(rs.getString("created_at"));
+                post.setUpdatedAt(rs.getString("updated_at"));
+            }
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return post;
     }
 
     public static void addPost(Post post) {
@@ -65,7 +93,7 @@ public class PostDAO {
             ps.setString(1, post.getTitle());
             ps.setString(2, post.getContent());
             ps.setInt(3, post.getUserId());
-            ps.setString(4,post.getPicture());
+            ps.setString(4, post.getPicture());
             ps.executeUpdate();
             con.close();
         } catch (SQLException e) {
@@ -73,33 +101,36 @@ public class PostDAO {
         }
     }
 
-    public static void updateUser(User user) {
-        String sql = "UPDATE users SET username=?,password=?,email=? WHERE id=?";
+    public static void updatePost(Post post) {
+        String sql = "UPDATE posts SET title=?,content=?,user_id=?, picture=? WHERE id=?";
         try {
             Connection con = ConnectDB.connect();
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, user.getUsername());
-            ps.setString(2, user.getPassword());
-            ps.setString(3, user.getEmail());
-            ps.setInt(4,user.getId());
+            ps.setString(1, post.getTitle());
+            ps.setString(2, post.getContent());
+            ps.setInt(3, post.getUserId());
+            ps.setString(4,post.getPicture());
+            ps.setInt(5, post.getId());
             ps.executeUpdate();
             con.close();
+            System.out.println(post.getId());
+            System.out.println("post updated");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static boolean auth(String username, String password){
-        boolean status=false;
+    public static boolean auth(String username, String password) {
+        boolean status = false;
         String sql = "SELECT username,password FROM users WHERE username=? AND password=?";
-        try{
+        try {
             Connection con = ConnectDB.connect();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, password);
-            ResultSet rs=ps.executeQuery();
-            while (rs.next()){
-                status=true;
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                status = true;
             }
             con.close();
         } catch (SQLException e) {
@@ -107,8 +138,9 @@ public class PostDAO {
         }
         return status;
     }
-    public static void deleteUser(int id) {
-        String sql = "DELETE FROM users WHERE id=?";
+
+    public static void deletePost(int id) {
+        String sql = "DELETE FROM posts WHERE id=?";
         try {
             Connection con = ConnectDB.connect();
             PreparedStatement ps = con.prepareStatement(sql);
