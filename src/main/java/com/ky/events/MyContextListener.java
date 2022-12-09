@@ -14,8 +14,6 @@ public class MyContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         Database.run();
-        ArrayList<Post> latestPosts= PostDAO.getLatestPosts();
-        sce.getServletContext().setAttribute("latestPosts",latestPosts);
     }
 
     @Override

@@ -14,7 +14,9 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ArrayList<Post> posts= PostDAO.getPosts();
+        ArrayList<Post> latestPosts= PostDAO.getLatestPosts();
         request.setAttribute("posts",posts);
+        request.setAttribute("latestPosts",latestPosts);
         request.getRequestDispatcher("home.jsp").forward(request,response);
     }
 

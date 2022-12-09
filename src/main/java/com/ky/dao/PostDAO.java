@@ -15,7 +15,7 @@ public class PostDAO {
         ArrayList<Post> posts = new ArrayList<>();
         try {
             Connection con = ConnectDB.connect();
-            String sql = "SELECT * FROM posts";
+            String sql = "SELECT * FROM posts ORDER BY id DESC";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -40,7 +40,7 @@ public class PostDAO {
         ArrayList<Post> posts = new ArrayList<>();
         try {
             Connection con = ConnectDB.connect();
-            String sql = "SELECT * FROM posts ORDER BY id LIMIT 5";
+            String sql = "SELECT * FROM posts ORDER BY id DESC LIMIT 5";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
